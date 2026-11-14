@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jonathan Roumie · Official Live Stream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0b0d10;
+      color: #e8eaed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-wrapper { width: 100%; max-width: 900px; margin: 0 auto; }
+
+    /* ---- Header ---- */
+    .header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+
+    .channel-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, #2b2f36, #1a1d22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid #2f333a;
+      overflow: hidden;
+    }
+    .channel-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .channel-info { display: flex; flex-direction: column; gap: 2px; }
+    .channel-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .channel-name { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; color: #ffffff; }
+
+    .verified-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; background: #1d9bf0; border-radius: 50%; flex-shrink: 0;
+    }
+    .verified-badge svg { width: 12px; height: 12px; fill: #ffffff; }
+
+    .verified-label {
+      font-size: 0.75rem; font-weight: 500; color: #1d9bf0;
+      background: rgba(29, 155, 240, 0.12); padding: 2px 8px; border-radius: 100px;
+      border: 1px solid rgba(29, 155, 240, 0.3);
+    }
+
+    .channel-sub { font-size: 0.85rem; color: #8b8f96; margin-top: 1px; }
+
+    .live-indicator {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #e53935; color: #fff; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px;
+      border-radius: 4px; margin-left: auto; flex-shrink: 0;
+    }
+    .live-dot {
+      width: 7px; height: 7px; background: #fff; border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* ---- Player layout ---- */
+    .player-wrapper { display: flex; flex-direction: column; gap: 10px; }
+
+    .player-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #d4a843;
+      background: rgba(212, 168, 67, 0.1);
+      border: 1px solid rgba(212, 168, 67, 0.28);
+      padding: 5px 12px;
+      border-radius: 100px;
+      align-self: flex-start;
+      letter-spacing: 0.01em;
+    }
+    .player-badge svg { width: 14px; height: 14px; fill: #d4a843; flex-shrink: 0; }
+
+    .player-container {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+    .player-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    /* ---- Info card ---- */
+    .info-card {
+      margin-top: 20px; background: #14171c; border: 1px solid #23262d;
+      border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .info-title { font-size: 1.15rem; font-weight: 600; color: #ffffff; letter-spacing: -0.01em; line-height: 1.35; }
+    .info-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.85rem; color: #9aa0a6; }
+    .info-meta span { display: inline-flex; align-items: center; gap: 5px; }
+    .info-meta svg { width: 15px; height: 15px; fill: #9aa0a6; flex-shrink: 0; }
+
+    .info-description { font-size: 0.92rem; color: #b0b5bc; line-height: 1.6; }
+    .highlight { color: #d4a843; font-weight: 500; }
+
+    .disclaimer {
+      margin-top: 24px; padding-top: 18px; border-top: 1px solid #1e2128;
+      font-size: 0.75rem; color: #6b7078; line-height: 1.6; text-align: center;
+    }
+    .disclaimer strong { color: #9aa0a6; font-weight: 600; }
+    .disclaimer a { color: #8b8f96; text-decoration: underline; text-underline-offset: 2px; }
+    .disclaimer a:hover { color: #b0b5bc; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      body { padding: 16px 10px; justify-content: flex-start; padding-top: 20px; }
+      .header { gap: 10px; margin-bottom: 18px; }
+      .channel-avatar { width: 40px; height: 40px; }
+      .channel-name { font-size: 1.05rem; }
+      .live-indicator { font-size: 0.62rem; padding: 3px 8px; margin-left: 0; }
+      .info-card { padding: 16px 16px; }
+      .info-title { font-size: 1.02rem; }
+      .player-container { border-radius: 8px; }
+      .player-badge { font-size: 0.72rem; padding: 4px 10px; }
+    }
+
+    @media (max-width: 380px) {
+      .channel-sub { font-size: 0.78rem; }
+      .verified-label { font-size: 0.68rem; padding: 1px 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="channel-avatar" aria-hidden="true">
+        <img src="https://i.ibb.co/xtfNY9TL/IMG-7304.jpg" alt="Jonathan Roumie">
+      </div>
+      <div class="channel-info">
+        <div class="channel-name-row">
+          <span class="channel-name">Jonathan Roumie</span>
+          <span class="verified-badge" role="img" aria-label="Verified account" title="Verified account">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81C14.67 2.63 13.43 1.75 12 1.75s-2.67.88-3.34 2.19c-1.39-.46-2.9-.2-3.91.81s-1.27 2.52-.81 3.91C2.63 9.33 1.75 10.57 1.75 12s.88 2.67 2.19 3.34c-.46 1.39-.2 2.9.81 3.91s2.52 1.27 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.67-.88 3.34-2.19c1.39.46 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.19L6.75 12.4l1.41-1.41 2.38 2.38 5.54-5.54 1.41 1.41-6.95 6.95z"/>
+            </svg>
+          </span>
+          <span class="verified-label">Verified</span>
+        </div>
+        <div class="channel-sub">Official live stream · The Chosen Season 6</div>
+      </div>
+      <span class="live-indicator">
+        <span class="live-dot"></span>
+        Live
+      </span>
+    </header>
+
+    <!-- LIVE STREAM PLAYER -->
+    <div class="player-wrapper">
+      <span class="player-badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        Official YouTube stream
+      </span>
+
+      <div class="player-container">
+        <iframe
+          src="https://www.youtube.com/embed/r6gq-GBbWCE?autoplay=1&mute=1&rel=0&modestbranding=1"
+          title="The Chosen Season 6, Episode 1 — Global Livestream with Jonathan Roumie"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- INFO CARD -->
+    <div class="info-card">
+      <div class="info-title">The Chosen · Season 6, Episode 1 — Global Livestream</div>
+      <div class="info-meta">
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+          Saturday, November 14 · 1 PM ET
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+          Special guest: Jonathan Roumie
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          Free global premiere
+        </span>
+      </div>
+      <p class="info-description">
+        Join the worldwide livestream of <span class="highlight">The Chosen</span> Season 6, Episode 1 — one day before it launches on Prime Video. The stream features a special appearance by <span class="highlight">Jonathan Roumie</span> (Jesus), reflecting on the crucifixion season and wrapping series filming, plus a post-episode Q&amp;A with Dallas Jenkins.
+      </p>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <p class="disclaimer">
+      <strong>This is the official livestream page for The Chosen Season 6, Episode 1, embedded directly from the official YouTube channel.</strong>
+      This is an official platform operated in partnership with Jonathan Roumie and The Chosen representatives. All trademarks and content belong to their respective owners. For official news and updates, visit <a href="https://www.jonathanroumie.com" target="_blank" rel="noopener noreferrer">jonathanroumie.com</a>.
+    </p>
+
+  </div>
+
+  <!-- Begin of Chaport Live Chat code --> 
+  <script type="text/javascript"> 
+    (function(w,d,v3){ 
+      w.chaportConfig = { appId : '6af8bc3e137287d3460cd0d5', };  
+      if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};
+      v3.q=function(){v3._q.push(arguments)};
+      v3.on=function(e,fn){if(!v3._l[e])v3._l[e]=[];v3._l[e].push(fn)};
+      var s=d.createElement('script');s.type='text/javascript';s.async=true;
+      s.src='https://app.chaport.com/javascripts/insert.js';
+      var ss=d.getElementsByTagName('script')[0];
+      ss.parentNode.insertBefore(s,ss)
+    })(window, document); 
+  </script> 
+  <!-- End of Chaport Live Chat code -->
+</body>
+</html>
